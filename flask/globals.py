@@ -45,6 +45,9 @@ def _find_app():
 _request_ctx_stack = LocalStack()       # 请求上下文的数据结构
 _app_ctx_stack = LocalStack()           # 应用上下文的数据结构
 current_app = LocalProxy(_find_app)     # 从这个开始的4个，都是全局变量，他们其实通过代理上下文来实现的  
-request = LocalProxy(partial(_lookup_req_object, 'request'))
+
+# request = LocalProxy(_request_ctx_stack.top.request) = LocalProxy (_request_ctx_stack._local[stack][-1].request)
+request = LocalProxy(partial(_lookup_req_object, 'request')) 
+   
 session = LocalProxy(partial(_lookup_req_object, 'session'))
 g = LocalProxy(partial(_lookup_app_object, 'g'))

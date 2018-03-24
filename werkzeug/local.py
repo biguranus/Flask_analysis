@@ -9,7 +9,13 @@ except ImportError:
         from thread import get_ident
     except ImportError:
         from _thread import get_ident
-        
+  
+def release_local(local):
+    """Releases the contents of the local for the current context.
+    This makes it possible to use locals without a manager.
+    """
+    local.__release_local__()
+          
         
 class Local(object):
     __slots__ = ('__storage__', '__ident_func__')
@@ -35,6 +41,10 @@ class Local(object):
             raise AttributeError(name)
 
     def __setattr__(self, name, value):
+        """
+        {'thread_id1': {'stack': [RequestContext()]},
+        'thread_id2': {'stack': [RequestContext()]}}
+        """
         ident = self.__ident_func__()
         storage = self.__storage__
         try:
@@ -54,18 +64,6 @@ class LocalStack(object):
 
     """This class works similar to a :class:`Local` but keeps a stack
     of objects instead.  This is best explained with an example::
-
-        >>> ls = LocalStack()
-        >>> ls.push(42)
-        >>> ls.top
-        42
-        >>> ls.push(23)
-        >>> ls.top
-        23
-        >>> ls.pop()
-        23
-        >>> ls.top
-        42
     """
 
     def __init__(self):
@@ -120,3 +118,49 @@ class LocalStack(object):
             return self._local.stack[-1]
         except (AttributeError, IndexError):
             return None
+        
+        
+        
+@implements_bool
+class LocalProxy(object):
+
+    """Acts as a proxy for a werkzeug local.  Forwards all operations to
+    a proxied object.  The only operations not supported for forwarding
+    are right handed operands and any kind of assignment.
+    """
+    __slots__ = ('__local', '__dict__', '__name__', '__wrapped__')
+
+    def __init__(self, local, name=None):
+        object.__setattr__(self, '_LocalProxy__local', local)
+        object.__setattr__(self, '__name__', name)
+        if callable(local) and not hasattr(local, '__release_local__'):
+            # "local" is a callable that is not an instance of Local or
+            # LocalManager: mark it as a wrapped function.
+            object.__setattr__(self, '__wrapped__', local)
+           
+   def _get_current_object(self):
+        """Return the current object.  This is useful if you want the real
+        object behind the proxy at a time for performance reasons or because
+        you want to pass the object into a different context.
+        """
+        if not hasattr(self.__local, '__release_local__'):
+            return self.__local()
+        try:
+            return getattr(self.__local, self.__name__)
+        except AttributeError:
+            raise RuntimeError('no object bound to %s' % self.__name__) 
+        
+    def __getattr__(self, name):
+        if name == '__members__':
+            return dir(self._get_current_object())
+        return getattr(self._get_current_object(), name)
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
