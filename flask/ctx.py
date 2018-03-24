@@ -1,5 +1,5 @@
 '''Created on 2018年3月23日@author: litian'''
-
+import sys
 
 
 class RequestContext(object):
@@ -65,3 +65,4 @@ class RequestContext(object):
         self.session = self.app.open_session(self.request)
         if self.session is None:
             self.session = self.app.make_null_session()
+
