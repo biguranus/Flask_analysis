@@ -50,4 +50,5 @@ current_app = LocalProxy(_find_app)     # 从这个开始的4个，都是全局�
 request = LocalProxy(partial(_lookup_req_object, 'request')) 
    
 session = LocalProxy(partial(_lookup_req_object, 'session'))
+
 g = LocalProxy(partial(_lookup_app_object, 'g'))
