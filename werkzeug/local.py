@@ -21,7 +21,7 @@ class Local(object):
     __slots__ = ('__storage__', '__ident_func__')
 
     def __init__(self):
-        object.__setattr__(self, '__storage__', {})
+        object.__setattr__(self, '__storage__', {})     # 数据保存在 __storage__ 中，后续访问都是对该属性的操作
         object.__setattr__(self, '__ident_func__', get_ident)
 
     def __iter__(self):
