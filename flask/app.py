@@ -51,7 +51,6 @@ class Flask(_PackageBoundObject):
         ctx = self.request_context(environ)
         ctx.push()
         error = None
-        
         try:
             try:
                 # 正确的请求处理路径，会通过路由找到对应的处理函数
@@ -101,7 +100,7 @@ class Flask(_PackageBoundObject):
             request_started.send(self)      # socket部分的操作  request_started = _signals.signal('request-started')
             rv = self.preprocess_request()  # 进行请求的预处理 ，主要是进行flask的hook钩子, before_request功能的实现，也就是在真正发生请求之前，有些事情需要提前做
             if rv is None:
-                rv = self.dispatch_request()
+                rv = self.dispatch_request()        # 进行请求判定和分发
         except Exception as e:
             rv = self.handle_user_exception(e)
         return self.finalize_request(rv)      

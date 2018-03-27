@@ -1,4 +1,7 @@
 '''Created on 2018年3月24日@author: litian'''
+""""
+Flask0.1版本源码分析
+"""
 
 
 
@@ -24,22 +27,25 @@ class Flask(object):
     )
 
     def __init__(self, package_name):
-        
+        """
+        self.view_functions: {f.__name__: f} 例如：{'hello': hello}
+        self.url_map:  Map([Rule('/', endpoint='index'),
+                            Rule('/downloads/', endpoint='downloads/index'),
+                            Rule('/downloads/<int:id>', endpoint='downloads/show')])
+        """
         self.debug = False
         self.package_name = package_name
         self.root_path = _get_package_path(self.package_name)
         self.template_context_processors = [_default_template_ctx_processor]
 
-        self.view_functions = {}    # 保存了视图函数，处理用户请求的函数
+        self.view_functions = {}    # 保存了视图函数，处理用户请求的函数。 在调用route()装饰器的时候被赋值的，保存了视图函数名到函数体的映射
 
+        self.url_map = Map()    # 用以保存URI到视图函数的映射，即保存app.route()这个装饰器的信息。调用add_url_rule()来给self.url_map赋值，用以保存URI到视图函数的名映射
+        
         self.error_handlers = {}    # 保存了错误处理函数 
-
         self.before_request_funcs = []  # 保存了请求的预处理函数
-
         self.after_request_funcs = []   # 保存请求后处理函数
 
-        self.url_map = Map()    # 用以保存URI到视图函数的映射，即保存app.route()这个装饰器的信息
-        
     def route(self, rule, **options):
         """A decorator that is used to register a view function for a
         given URL rule.  Example::
