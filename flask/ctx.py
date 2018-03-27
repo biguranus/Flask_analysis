@@ -10,7 +10,7 @@ class RequestContext(object):
     """
     
     def __init__(self, app, environ, request=None):
-        self.app = app
+        self.app = app                  
         if request is None:
             request = app.request_class(environ)
         self.request = request
