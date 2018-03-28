@@ -1,4 +1,5 @@
-'''Created on 2018年3月24日 @author: litian'''
+#!/usr/bin/python3
+# -*- coding=utf-8 -*-
 
 
 class BaseResponse(object):

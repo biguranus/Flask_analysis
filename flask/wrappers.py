@@ -1,4 +1,5 @@
-'''Created on 2018年3月26日 @author: litian'''
+#!/usr/bin/python3
+# -*- coding=utf-8 -*-
 
 
 class Request(RequestBase):

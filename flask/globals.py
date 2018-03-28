@@ -1,4 +1,5 @@
-'''Created on 2018年3月23日 @author: litian'''
+#!/usr/bin/python3
+# -*- coding=utf-8 -*-
 from functools import partial
 from werkzeug.local import LocalStack, LocalProxy
 
