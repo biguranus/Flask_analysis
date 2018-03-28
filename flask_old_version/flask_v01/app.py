@@ -33,6 +33,10 @@ class Flask(object):
         self.url_map:  Map([Rule('/', endpoint='index'),
                             Rule('/downloads/', endpoint='downloads/index'),
                             Rule('/downloads/<int:id>', endpoint='downloads/show')])
+                            
+                        Map([<Rule '/' (GET, HEAD, OPTIONS) -> index>,
+                             <Rule '/static/<filename>' (GET, HEAD, OPTIONS) -> static>,
+                             <Rule '/user/<name>' (GET, HEAD, OPTIONS) -> user>])
         """
         self.debug = False
         self.package_name = package_name

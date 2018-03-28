@@ -14,6 +14,7 @@ class Flask(_PackageBoundObject):
                                      root_path=root_path)
         
         self.view_functions = {}
+        self.url_map = Map()
         
         self._got_first_request = False
         self._before_request_lock = Lock()
