@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//flask/app.py=utf-8
 encoding//flask/ctx.py=utf-8
 encoding//flask/globals.py=utf-8
+encoding//flask/helpers.py=utf-8
 encoding//flask/wrappers.py=utf-8
 encoding//flask_old_version/flask_v01/app.py=utf-8
 encoding//flask_old_version/werkzeug01/local.py=utf-8
