@@ -3,8 +3,6 @@
 from threading import Lock
 
 class Flask(_PackageBoundObject):
-    
-    
     def __init__(self, import_name, static_path=None, static_url_path=None,
                  static_folder='static', template_folder='templates',
                  instance_path=None, instance_relative_config=False,
@@ -12,7 +10,6 @@ class Flask(_PackageBoundObject):
         _PackageBoundObject.__init__(self, import_name,
                                      template_folder=template_folder,
                                      root_path=root_path)
-        
         self.view_functions = {}
         self.url_map = Map()
         
@@ -183,7 +180,6 @@ class Flask(_PackageBoundObject):
 
         return rv
 
-    
     def create_url_adapter(self, request):
         """Creates a URL adapter for the given request.  The URL adapter
         is created at a point where the request context is not yet set up
@@ -199,9 +195,7 @@ class Flask(_PackageBoundObject):
                 self.config['SERVER_NAME'],
                 script_name=self.config['APPLICATION_ROOT'] or '/',
                 url_scheme=self.config['PREFERRED_URL_SCHEME'])
-    
-        
-    
+
     def route(self, rule, **options):
         """A decorator that is used to register a view function for a
         given URL rule.  This does the same thing as :meth:`add_url_rule`
@@ -230,10 +224,6 @@ class Flask(_PackageBoundObject):
                 raise AssertionError('View function mapping is overwriting an '
                                      'existing endpoint function: %s' % endpoint)
             self.view_functions[endpoint] = view_func
-    
-    
-    
-    
     
     def try_trigger_before_first_request_functions(self):
         """Called before each request and will ensure that it triggers

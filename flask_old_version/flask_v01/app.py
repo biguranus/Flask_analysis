@@ -4,8 +4,6 @@
 Flask0.1版本源码分析
 """
 
-
-
 class Flask(object):
     """The flask object implements a WSGI application and acts as the central
     object.  It is passed the name of the module or package of the
